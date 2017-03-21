@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         unit = matrics.widthPixels/GROUND_SIZE;
         player_radius = unit/2;
 
+        // 최초 나의 위치
         player_x = 6;
         player_y = 7;
     }
@@ -269,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    // 뷰를 상속받은 커스텀뷰 클래스를 생성
     class CustomView extends View {
 
         Paint magenta = new Paint();
@@ -277,15 +278,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Paint brown = new Paint();
         Paint goal = new Paint();
 
-
         public CustomView(Context context) {
             super(context);
         }
+
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
+            //만들어준 Paint에 setColor로 색깔을 입력. 미리 세팅된 색이나 #FFFFFF으로도 입력가능.
             magenta.setColor(Color.MAGENTA);
             blue.setColor(Color.BLUE);
             line.setColor(Color.BLACK);
@@ -293,9 +295,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             brown.setARGB(0xff,0xb4,72,00);
             goal.setColor(Color.YELLOW);
 
+            // 사각형을 그림. 변수는 좌측상단의 x, y 좌표와 우측하단의 x, y 좌표를 순서대로 나타낸다.
+            // 5번째 변수는 색이다.
             canvas.drawRect(480,600,860,850,goal);
 
-//            gray.setColor(Color.GRAY);
+            // 원을 그림
+            // 각각의 변수는 원의 중심의 x, y 좌표와 반지름, 색을 나타낸다.
             canvas.drawCircle(player_x * unit + player_radius
                             ,player_y * unit + player_radius
                             ,player_radius
@@ -311,12 +316,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if(map[i][j] == 2) {
                         canvas.drawRect(unit*j, unit*i, unit*j + unit, unit*i + unit, blue);
                     }
-//                     3은 목표지점
-//                    if(map[i][j] == 3) {
-//                        canvas.drawRect(unit*j, unit*i, unit*j + unit, unit*i + unit, goal);
-//                    }
                 }
             }
+
+            // 변수는 drawRect와 같이 좌측상단의 x,y 좌표, 우측하단의 x, y좌표 , 색 을 나타낸다.
             canvas.drawLine(0,0,0,1300,line);
             canvas.drawLine(0,0,1300,0,line);
             canvas.drawLine(1300,0,1300,1300,line);
